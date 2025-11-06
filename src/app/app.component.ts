@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ApiService } from './core/services/api/api.service';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,14 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'fieldflow-pwa';
+
+  constructor(private api: ApiService) {}
+
+ngOnInit() {
+  this.api.get<any>('/health').subscribe({
+    next: (res) => console.log('API OK:', res),
+    error: (err) => console.error('API ERROR:', err)
+  });
+}
+
 }

@@ -5,9 +5,11 @@ import { routes } from './app/app.routes';
 import { provideServiceWorker } from '@angular/service-worker';
 import { isDevMode } from '@angular/core';
 import { environment } from './environments/environment'; 
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     provideRouter(routes),
     provideServiceWorker('ngsw-worker.js', {
       enabled: environment.serviceWorker, 
