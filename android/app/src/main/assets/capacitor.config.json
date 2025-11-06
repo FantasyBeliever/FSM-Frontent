@@ -1,0 +1,5 @@
+{
+	"appId": "com.fieldflow.app",
+	"appName": "FieldFlow",
+	"webDir": "dist/fieldflow-pwa/browser"
+}
