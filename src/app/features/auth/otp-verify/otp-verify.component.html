@@ -1,0 +1,35 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+  <div class="bg-white shadow-md rounded-2xl p-6 w-80">
+    <h2 class="text-xl font-semibold mb-4 text-center text-gray-700">
+      Verify OTP
+    </h2>
+
+    <form (ngSubmit)="onVerify()" class="flex flex-col gap-3">
+      <input
+        [(ngModel)]="otp"
+        name="otp"
+        type="text"
+        placeholder="Enter OTP"
+        maxlength="6"
+        class="border rounded-md px-3 py-2 text-center text-lg tracking-widest focus:ring-2 focus:ring-blue-500 outline-none"
+      />
+
+      <button
+        type="submit"
+        [disabled]="loading"
+        class="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+      >
+        {{ loading ? 'Verifying...' : 'Verify' }}
+      </button>
+    </form>
+
+    <p *ngIf="errorMsg" class="text-red-600 text-sm mt-3 text-center">
+      {{ errorMsg }}
+    </p>
+
+    <p class="text-sm text-center text-gray-500 mt-4">
+      Didn’t receive OTP?
+      <a class="text-blue-600 cursor-pointer hover:underline">Resend</a>
+    </p>
+  </div>
+</div>

@@ -23,9 +23,6 @@ export class AppComponent {
   constructor(private api: ApiService) {}
 
   ngOnInit() {
-    this.api.get<any>('/unstable-endpoint').subscribe({
-      next: (res) => console.log('Success:', res),
-      error: (err) => console.error('Final failure:', err),
-    });
+
   }
 }

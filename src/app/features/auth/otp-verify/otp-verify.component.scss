@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+input {
+  letter-spacing: 0.3rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
