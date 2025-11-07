@@ -1,1 +1,27 @@
-<p>role-select works!</p>
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+  <div class="bg-white shadow-md rounded-2xl p-6 w-80 text-center">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Welcome</h2>
+
+    <p *ngIf="user" class="text-gray-600 mb-4">
+      Logged in as <strong>{{ user.name || 'User' }}</strong>
+    </p>
+
+    <p class="text-gray-600 mb-4">Select your role to continue:</p>
+
+    <div class="flex flex-col gap-3">
+      <button
+        (click)="selectRole('owner')"
+        class="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+      >
+        Continue as Owner
+      </button>
+
+      <button
+        (click)="selectRole('technician')"
+        class="bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition"
+      >
+        Continue as Technician
+      </button>
+    </div>
+  </div>
+</div>

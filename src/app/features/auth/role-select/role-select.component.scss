@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+
+button {
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
