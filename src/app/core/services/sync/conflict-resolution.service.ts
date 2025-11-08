@@ -27,7 +27,7 @@ export class ConflictResolutionService {
   ) {}
 
   // Main entry
-  async resolve<T>(ctx: ConflictContext<T>): Promise<boolean> {
+  async resolve<T extends { updatedAt?: number }>(ctx: ConflictContext<T>): Promise<boolean> {
     switch (this.defaultStrategy) {
       case 'local-wins':
         return this.localWins(ctx);
