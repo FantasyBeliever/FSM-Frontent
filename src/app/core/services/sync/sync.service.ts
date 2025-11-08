@@ -6,6 +6,7 @@ import { QueueStorageService, OfflineAction } from '../storage/queue-storage.ser
 import { StoragePolicy } from '../storage/storage.policy';
 import { ApiService } from '../api/api.service';
 import { StorageService } from '../storage/storage.service';
+import { ConflictResolutionService } from './conflict-resolution.service';
 
 export type SyncEvent =
   | { type: 'start' }
@@ -30,7 +31,8 @@ export class SyncService implements OnDestroy {
     private queue: QueueStorageService,
     private api: ApiService,
     private storage: StorageService,
-    private policy: StoragePolicy
+    private policy: StoragePolicy,
+    private conflict: ConflictResolutionService
   ) {
     // auto-initialize when created (does not auto-run sync)
     window.addEventListener('online', this.onlineListener);
@@ -162,20 +164,38 @@ export class SyncService implements OnDestroy {
     return status === 409;
   }
 
-  // Default conflict handler (can be overridden by subclassing / replacing via DI if needed)
-  // Returns true if resolved (i.e., we consider action done), false otherwise.
-  private async handleConflict(action: OfflineAction, error: any): Promise<boolean> {
-    // Default strategy: discard local action and consider it resolved
-    // Optionally you can fetch server state and try to merge and re-enqueue.
-    console.warn('[SyncService] Conflict detected for', action, error);
-    // remove the action from queue to prevent blocking
-    try {
-      await lastValueFrom(this.queue.delete(action.id));
-    } catch {
-      // ignore
-    }
-    return true;
+private async handleConflict(action: OfflineAction, error: any): Promise<boolean> {
+  console.warn('[SyncService] Conflict detected, delegating to ConflictResolutionService');
+  const serverData = await this.fetchServerState(action);
+  const localData = action.body || {};
+  const ctx = {
+    store: this.extractStoreName(action.url),
+    localData,
+    serverData,
+    action,
+    conflictReason: '409 Conflict'
+  };
+
+  return this.conflict.resolve(ctx);
+}
+
+// Helper to fetch server copy
+private async fetchServerState(action: OfflineAction): Promise<any> {
+  try {
+    return await lastValueFrom(this.api.get<any>(action.url));
+  } catch {
+    return null;
   }
+}
+
+// Map API URL to local store name
+private extractStoreName(url: string): string {
+  if (url.includes('/jobs')) return 'jobs';
+  if (url.includes('/technicians')) return 'technicians';
+  if (url.includes('/customers')) return 'customers';
+  return 'sync-queue';
+}
+
 
   private delay(ms: number): Promise<void> {
     return new Promise((res) => setTimeout(res, ms));
