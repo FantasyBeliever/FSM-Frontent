@@ -1,29 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastMessage, ToastService } from '../../../../core/services/notification/toast.service';
-import { Subscription, timer } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ToastMessage, ToastService } from '../../../../core/services/notification/toast.service';
+
 
 @Component({
   selector: 'app-toast-message',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './toast-message.component.html',
-  styleUrl: './toast-message.component.scss'
+  styleUrls: ['./toast-message.component.scss']
 })
 export class ToastMessageComponent implements OnInit {
-  message: ToastMessage | null = null;
-  private sub!: Subscription;
+  toasts: ToastMessage[] = [];
 
-  constructor(private toast: ToastService) {}
+  constructor(private toastService: ToastService) {}
 
-  ngOnInit() {
-    this.sub = this.toast.messages$.subscribe(msg => {
-      this.message = msg;
-      timer(3000).subscribe(() => (this.message = null)); // auto hide
-    });
+  ngOnInit(): void {
+    this.toastService.toasts$.subscribe(toasts => (this.toasts = toasts));
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  dismiss(id: string): void {
+    this.toastService.dismiss(id);
+  }
+
+  getIcon(type: string): string {
+    switch (type) {
+      case 'success': return '✔';
+      case 'error': return '✖';
+      case 'warning': return '⚠';
+      default: return 'ℹ';
+    }
   }
 }
