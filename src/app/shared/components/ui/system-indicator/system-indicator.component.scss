@@ -1,0 +1,60 @@
+.indicator-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  background-color: #222;
+  color: #fff;
+  opacity: 0.9;
+  transition: background-color 0.3s ease;
+  z-index: 9999;
+}
+
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-ok .indicator-dot {
+  background-color: #16a34a; /* green */
+}
+
+.status-sync .indicator-dot {
+  background-color: #3b82f6; /* blue */
+  animation: pulse 1s infinite alternate;
+}
+
+.status-warning .indicator-dot {
+  background-color: #eab308; /* yellow */
+}
+
+.status-offline .indicator-dot {
+  background-color: #ef4444; /* red */
+}
+
+.status-unknown .indicator-dot {
+  background-color: #6b7280; /* gray */
+}
+
+.error-badge {
+  background-color: #ef4444;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}

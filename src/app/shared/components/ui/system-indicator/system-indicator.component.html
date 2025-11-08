@@ -1,0 +1,10 @@
+<div class="indicator-container" [ngClass]="getStatusClass()" [title]="getTooltip()">
+  <div class="indicator-dot"></div>
+  <span class="indicator-label">
+    {{ status?.network === 'offline' ? 'Offline' : 'Online' }}
+    <span *ngIf="status?.sync === 'running'">(Syncing)</span>
+  </span>
+  <span *ngIf="(errorCount$ | async) as count" class="error-badge" [hidden]="count === 0">
+    ⚠ {{ count }}
+  </span>
+</div>

@@ -42,7 +42,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.toast.show(userMessage, 'error');
 
         // ✅ Log for analytics/tracking
-        this.errorTracker.logError({
+        (this.errorTracker as any).logError({
           url: req.url,
           status: error.status,
           message: userMessage,

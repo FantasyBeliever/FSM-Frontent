@@ -11,6 +11,7 @@ import { BackgroundSyncService } from './core/services/sync/background-sync.serv
 import { SyncStatusService } from './core/services/sync/sync-status.service';
 import { SyncIntegrationService } from './core/testing/sync-integration.service';
 import { ErrorTrackingService } from './core/services/system/error-tracking.service';
+import { SystemIndicatorComponent } from "./shared/components/ui/system-indicator/system-indicator.component";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ import { ErrorTrackingService } from './core/services/system/error-tracking.serv
     RouterOutlet,
     LoadingSpinnerComponent,
     ToastMessageComponent,
-  ],
+    SystemIndicatorComponent
+],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
