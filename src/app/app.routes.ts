@@ -6,6 +6,7 @@ import { AuthGuard } from './core/guards/AuthGuard';
 import { OwnerGuard } from './core/guards/OwnerGuard';
 import { SubscriptionGuard } from './core/guards/SubscriptionGuard';
 import { TechnicianGuard } from './core/guards/TechnicianGuard';
+import { StorageGuard } from './core/guards/storage.guard';
 
 export const routes: Routes = [
   // 🔹 AUTH FLOW
@@ -16,7 +17,7 @@ export const routes: Routes = [
   // 🔹 OWNER AREA (standalone lazy route)
   {
     path: 'owner',
-    canActivate: [AuthGuard, OwnerGuard, SubscriptionGuard],
+    canActivate: [AuthGuard, OwnerGuard, SubscriptionGuard, StorageGuard],
     loadChildren: () =>
       import('./features/owner/owner.routes').then((m) => m.OWNER_ROUTES),
   },
@@ -24,7 +25,7 @@ export const routes: Routes = [
   // 🔹 TECHNICIAN AREA
   {
     path: 'technician',
-    canActivate: [AuthGuard, TechnicianGuard],
+    canActivate: [AuthGuard, TechnicianGuard, StorageGuard],
     loadChildren: () =>
       import('./features/technician/technician.routes').then((m) => m.TECHNICIAN_ROUTES),
   },
