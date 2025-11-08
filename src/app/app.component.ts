@@ -11,7 +11,9 @@ import { BackgroundSyncService } from './core/services/sync/background-sync.serv
 import { SyncStatusService } from './core/services/sync/sync-status.service';
 import { SyncIntegrationService } from './core/testing/sync-integration.service';
 import { ErrorTrackingService } from './core/services/system/error-tracking.service';
-import { SystemIndicatorComponent } from "./shared/components/ui/system-indicator/system-indicator.component";
+import { SystemIndicatorComponent } from './shared/components/ui/system-indicator/system-indicator.component';
+import { ToastService } from './core/services/notification/toast.service';
+import { PushNotificationService } from './core/services/notification/push-notification.service';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +23,8 @@ import { SystemIndicatorComponent } from "./shared/components/ui/system-indicato
     RouterOutlet,
     LoadingSpinnerComponent,
     ToastMessageComponent,
-    SystemIndicatorComponent
-],
+    SystemIndicatorComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -37,27 +39,18 @@ export class AppComponent {
     private bgSync: BackgroundSyncService,
     private syncStatus: SyncStatusService,
     private syncIntegration: SyncIntegrationService,
-    private errorTracker: ErrorTrackingService
+    private errorTracker: ErrorTrackingService,
+    private push: PushNotificationService,
+    private toast: ToastService
   ) {}
 
-  ngOnInit() {
-    this.storageTest.runFullTest();
-    this.syncIntegration.runFullTest();
-     this.syncStatus.isSyncing$.subscribe(isSyncing => {
-    // show spinner or indicator
-  });
-
-  this.syncStatus.pendingCount$.subscribe(count => {
-    // show badge with count
-  });
-
-  this.syncStatus.lastSync$.subscribe(ts => {
-    // show "Last synced: ..." or hide if null
-  });
-
-  this.syncStatus.online$.subscribe(isOnline => {
-    // show network indicator
-  });
+  async ngOnInit() {
+    await this.push.subscribeToNotifications('user-123');
+    this.push.messages$.subscribe((msg) => {
+      if (msg) {
+        this.toast.show(`${msg.title}: ${msg.body}`, 'info');
+      }
+    });
   }
   async triggerSync() {
     await this.sync.syncAll();
