@@ -10,6 +10,7 @@ import { SyncService } from './core/services/sync/sync.service';
 import { BackgroundSyncService } from './core/services/sync/background-sync.service';
 import { SyncStatusService } from './core/services/sync/sync-status.service';
 import { SyncIntegrationService } from './core/testing/sync-integration.service';
+import { ErrorTrackingService } from './core/services/system/error-tracking.service';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +34,8 @@ export class AppComponent {
     private sync: SyncService,
     private bgSync: BackgroundSyncService,
     private syncStatus: SyncStatusService,
-    private syncIntegration: SyncIntegrationService
+    private syncIntegration: SyncIntegrationService,
+    private errorTracker: ErrorTrackingService
   ) {}
 
   ngOnInit() {
