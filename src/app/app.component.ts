@@ -15,6 +15,7 @@ import { SystemIndicatorComponent } from './shared/components/ui/system-indicato
 import { ToastService } from './core/services/notification/toast.service';
 import { PushNotificationService } from './core/services/notification/push-notification.service';
 import { NotificationIntegrationTriggerComponent } from "./core/testing/notification-integration-trigger.component";
+import { SubscriptionIntegrationTriggerComponent } from "./core/testing/subscription-integration-trigger.component";
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,8 @@ import { NotificationIntegrationTriggerComponent } from "./core/testing/notifica
     LoadingSpinnerComponent,
     ToastMessageComponent,
     SystemIndicatorComponent,
-    NotificationIntegrationTriggerComponent
+    NotificationIntegrationTriggerComponent,
+    SubscriptionIntegrationTriggerComponent
 ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
