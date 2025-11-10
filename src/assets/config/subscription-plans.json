@@ -1,0 +1,23 @@
+[
+  {
+    "id": "starter",
+    "name": "Starter",
+    "monthlyCredits": 500,
+    "priceRupeePerMonth": 0,
+    "features": ["basic-jobs", "basic-invoice"]
+  },
+  {
+    "id": "pro",
+    "name": "Pro",
+    "monthlyCredits": 2000,
+    "priceRupeePerMonth": 499,
+    "features": ["basic-jobs", "pro-reports", "priority-support"]
+  },
+  {
+    "id": "enterprise",
+    "name": "Enterprise",
+    "monthlyCredits": 10000,
+    "priceRupeePerMonth": 1999,
+    "features": ["all", "white-label", "sla-support"]
+  }
+]
