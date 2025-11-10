@@ -13,6 +13,14 @@ export const routes: Routes = [
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/otp-verify', component: OtpVerifyComponent },
   { path: 'auth/role-select', component: RoleSelectComponent },
+  {
+    path: 'admin/system-health',
+    loadComponent: () =>
+      import('./features/admin/system-health/system-health.component').then(
+        (m) => m.SystemHealthComponent
+      ),
+    // Protect this route with an admin guard in production
+  },
 
   // 🔹 OWNER AREA (standalone lazy route)
   {
@@ -27,7 +35,9 @@ export const routes: Routes = [
     path: 'technician',
     canActivate: [AuthGuard, TechnicianGuard, StorageGuard],
     loadChildren: () =>
-      import('./features/technician/technician.routes').then((m) => m.TECHNICIAN_ROUTES),
+      import('./features/technician/technician.routes').then(
+        (m) => m.TECHNICIAN_ROUTES
+      ),
   },
 
   // 🔹 FALLBACK

@@ -1,0 +1,48 @@
+<div class="health-root">
+  <h2>System Health</h2>
+
+  <div class="summary-row">
+    <div class="card">
+      <h3>System Snapshot</h3>
+      <pre class="mono">{{ status | json }}</pre>
+    </div>
+
+    <div class="card">
+      <h3>Sync Status</h3>
+      <p>Syncing: <strong>{{ syncing }}</strong></p>
+      <p>Last checked: {{ format(lastRefreshed) }}</p>
+      <button (click)="runSelfChecks()" [disabled]="loading">Run Self-Checks</button>
+      <button (click)="exportDiagnostics()" [disabled]="loading">Export Diagnostics</button>
+    </div>
+
+    <div class="card">
+      <h3>Queues</h3>
+      <p>Pending Analytics Events: <strong>{{ pendingAnalyticsCount }}</strong></p>
+      <p>Pending Error Logs: <strong>{{ pendingErrorsCount }}</strong></p>
+      <p>Pending Credit Transactions: <strong>{{ pendingTransactionsCount }}</strong></p>
+      <button (click)="refreshCounts()" [disabled]="loading">Refresh Counts</button>
+    </div>
+  </div>
+
+  <section class="panels">
+    <div class="panel">
+      <h4>Recent Performance Metrics (latest first)</h4>
+      <ul>
+        <li *ngFor="let m of recentMetrics">
+          <span class="mono">{{ m.type }}</span> — <strong>{{ m.name }}</strong>
+          <span class="muted">({{ m.duration.toFixed(1) }} ms)</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h4>Recent Errors (latest first)</h4>
+      <ul>
+        <li *ngFor="let e of recentErrors">
+          <div class="err-title">{{ e.message || e['msg'] || 'Error' }}</div>
+          <div class="muted mono">{{ e.timestamp ? (e.timestamp | date:'short') : '-' }} — {{ e.url || '' }}</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
